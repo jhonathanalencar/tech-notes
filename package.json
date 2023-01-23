@@ -1,0 +1,24 @@
+{
+  "name": "tech-notes",
+  "version": "1.0.0",
+  "description": "techNotes MERN Project",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "tsc && node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.15",
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.2",
+    "typescript": "^4.9.4"
+  }
+}
