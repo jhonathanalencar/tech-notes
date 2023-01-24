@@ -3,6 +3,8 @@ import path from 'node:path';
 
 const app = express();
 
+app.use(express.json());
+
 app.use('/', express.static(path.resolve(__dirname, '..', 'public')));
 
 app.get('^/$|/index(.html)?', (request, response) => {
