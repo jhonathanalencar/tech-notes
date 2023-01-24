@@ -1,12 +1,16 @@
 import express from 'express';
 import path from 'node:path';
+import cors from 'cors';
 
+import { errorHandler } from './middlewares/errorHandler';
 import { logger } from './middlewares/logger';
+import { corsOptions } from './configs/corsOptions';
 
 const app = express();
 
-app.use(express.json());
 app.use(logger);
+app.use(cors(corsOptions));
+app.use(express.json());
 
 app.use('/', express.static(path.resolve(__dirname, '..', 'public')));
 
@@ -25,5 +29,7 @@ app.all('*', (request, response) => {
     response.type('txt').send('404 Not Found');
   }
 });
+
+app.use(errorHandler);
 
 export { app };
