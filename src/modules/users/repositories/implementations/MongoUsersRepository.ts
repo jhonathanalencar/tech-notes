@@ -1,11 +1,14 @@
 import bcrypt from 'bcrypt';
-import { BadRequestError } from '../../../../errors/BadRequestError';
 
-import { ConflictError } from '../../../../errors/ConflictError';
-import { NotFoundError } from '../../../../errors/NotFoundError';
+import {
+  BadRequestError,
+  ConflictError,
+  NotFoundError,
+} from '../../../../errors';
 import { NoteModel } from '../../../../models/Note';
 import { UserModel } from '../../../../models/User';
 import { User } from '../../model/User';
+
 import {
   ICreateUserDTO,
   IUsersRepository,

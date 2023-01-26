@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { deleteUserBody } from './DeleteUserSchema';
 import { DeleteUserUseCase } from './DeleteUserUseCase';
 

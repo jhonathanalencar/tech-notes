@@ -1,14 +1,15 @@
-import { User } from "../../model/User";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { User } from '../../model/User';
+
+import { IUsersRepository } from '../../repositories/IUsersRepository';
 
 class GetAllUsersUseCase {
-  constructor(private usersRepository: IUsersRepository){}
+  constructor(private usersRepository: IUsersRepository) {}
 
-  async execute(): Promise<User[]>{
+  async execute(): Promise<User[]> {
     const users = this.usersRepository.getAllUsers();
 
-    return users
+    return users;
   }
 }
 
-export { GetAllUsersUseCase }
+export { GetAllUsersUseCase };

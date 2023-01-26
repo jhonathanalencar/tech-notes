@@ -3,13 +3,11 @@ import 'express-async-errors';
 import express from 'express';
 import path from 'node:path';
 import cors from 'cors';
-
-import { errorHandler } from './middlewares/errorHandler';
-import { logger } from './middlewares/logger';
-import { corsOptions } from './configs/corsOptions';
 import mongoose from 'mongoose';
-import { connectDB } from './configs/dbConn';
-import { logEvents } from './utils/logEvents';
+
+import { errorHandler, logger } from './middlewares';
+import { corsOptions, connectDB } from './configs';
+import { logEvents } from './utils';
 import { router } from './routes';
 
 const app = express();
@@ -42,12 +40,15 @@ app.all('*', (request, response) => {
 
 app.use(errorHandler);
 
-mongoose.connection.once('open', () =>{
+mongoose.connection.once('open', () => {
   console.log('Connect to MongoDB 🍃');
 });
 
-mongoose.connection.on('error', (error) =>{
-  logEvents(`${error.name}: ${error.message}\t ${error.code ?? 500}`, 'mongoErrorLog.log');
+mongoose.connection.on('error', (error) => {
+  logEvents(
+    `${error.name}: ${error.message}\t ${error.code ?? 500}`,
+    'mongoErrorLog.log'
+  );
 });
 
 export { app };

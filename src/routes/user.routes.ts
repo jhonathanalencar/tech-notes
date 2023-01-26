@@ -1,9 +1,11 @@
 import { Router } from 'express';
 
-import { createUserController } from '../modules/users/useCases/createUser';
-import { deleteUserController } from '../modules/users/useCases/deleteUser';
-import { getAllUsersController } from '../modules/users/useCases/getAllUsers';
-import { updateUserController } from '../modules/users/useCases/updateUser';
+import {
+  createUserController,
+  deleteUserController,
+  getAllUsersController,
+  updateUserController,
+} from '../modules/users/useCases';
 
 const userRoutes = Router();
 
