@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-import AutoIncrement from 'mongoose-sequence';
+import mongoose from 'mongoose';
+import Inc from 'mongoose-sequence';
 
-interface INote{
-  user: mongoose.Types.ObjectId;
+interface INote {
+  user: string;
   title: string;
   text: string;
   completed: boolean;
@@ -10,32 +10,37 @@ interface INote{
   updatedAt: Date;
 }
 
-const noteSchema = new mongoose.Schema<INote>({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User',
+const noteSchema = new mongoose.Schema<INote>(
+  {
+    user: {
+      type: String,
+      required: true,
+      ref: 'User',
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    text: {
+      type: String,
+      required: true,
+    },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
-  title: {
-    type: String,
-    required: true,
-  },
-  text: {
-    type: String,
-    required: true,
-  },
-  completed: {
-    type: Boolean,
-    default: false
-  }
-}, { timestamps: true });
+  { timestamps: true }
+);
+
+const AutoIncrement = Inc(mongoose);
 
 noteSchema.plugin(AutoIncrement, {
   inc_field: 'ticket',
   id: 'ticketNums',
-  start_seq: 500
+  start_seq: 500,
 });
 
-const Note = mongoose.model<INote>('Note', noteSchema);
+const NoteModel = mongoose.model<INote>('Note', noteSchema);
 
-export { Note, INote }
+export { NoteModel, INote };

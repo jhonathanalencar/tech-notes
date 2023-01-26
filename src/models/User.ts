@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 type Role = 'Employee' | 'Admin' | 'Manager';
 
-interface IUser{
+interface IUser {
   _id: string;
   username: string;
   password: string;
@@ -12,33 +12,38 @@ interface IUser{
   updatedAt: Date;
 }
 
-const userSchema = new mongoose.Schema<IUser>({
-  _id: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema<IUser>(
+  {
+    _id: {
+      type: String,
+      required: true,
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    roles: {
+      type: [String],
+      enum: ['Employee', 'Admin', 'Manager'],
+      default: ['Employee'],
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
-  username: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  roles: {
-    type: [String],
-    default: ["Employee"]
-  },
-  active: {
-    type: Boolean,
-    default: true
+  {
+    timestamps: true,
+    _id: false,
+    id: false,
   }
-}, {
-  timestamps: true,
-  _id: false,
-  id: false,
-});
+);
 
 const UserModel = mongoose.model<IUser>('User', userSchema);
 
-export { UserModel, IUser, Role, userSchema }
+export { UserModel, IUser, Role, userSchema };

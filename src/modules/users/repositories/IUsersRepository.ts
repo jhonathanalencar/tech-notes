@@ -15,11 +15,15 @@ interface IUpdateUserDTO {
   password?: string;
 }
 
+interface IDeleteUserDTO {
+  id: string;
+}
+
 interface IUsersRepository {
   getAllUsers(): Promise<User[]>;
   createUser(data: ICreateUserDTO): Promise<User>;
   updateUser(data: IUpdateUserDTO): Promise<void>;
-  deleteUser(): void;
+  deleteUser(data: IDeleteUserDTO): Promise<void>;
 }
 
-export { IUsersRepository, ICreateUserDTO, IUpdateUserDTO };
+export { IUsersRepository, ICreateUserDTO, IUpdateUserDTO, IDeleteUserDTO };

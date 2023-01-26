@@ -15,7 +15,9 @@ class CreateUserController {
       roles,
     });
 
-    return response.status(201).json(user);
+    return response
+      .status(201)
+      .json({ message: `New user ${user.username} created` });
   }
 }
 

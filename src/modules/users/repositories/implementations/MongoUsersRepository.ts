@@ -1,13 +1,16 @@
 import bcrypt from 'bcrypt';
+import { BadRequestError } from '../../../../errors/BadRequestError';
 
 import { ConflictError } from '../../../../errors/ConflictError';
 import { NotFoundError } from '../../../../errors/NotFoundError';
+import { NoteModel } from '../../../../models/Note';
 import { UserModel } from '../../../../models/User';
 import { User } from '../../model/User';
 import {
   ICreateUserDTO,
   IUsersRepository,
   IUpdateUserDTO,
+  IDeleteUserDTO,
 } from '../IUsersRepository';
 
 class MongoUsersRepository implements IUsersRepository {
@@ -67,8 +70,20 @@ class MongoUsersRepository implements IUsersRepository {
     await user.save();
   }
 
-  deleteUser(): void {
-    throw new Error('Method not implemented.');
+  async deleteUser(data: IDeleteUserDTO): Promise<void> {
+    const user = await UserModel.findById(data.id).exec();
+
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    const note = await NoteModel.findOne({ user: data.id }).lean().exec();
+
+    if (note) {
+      throw new BadRequestError('User has assigned notes');
+    }
+
+    await user.deleteOne();
   }
 }
 
