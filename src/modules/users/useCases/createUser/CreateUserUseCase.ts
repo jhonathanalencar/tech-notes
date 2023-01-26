@@ -1,13 +1,16 @@
-import { IUsersRepository,ICreateUserDTO } from "../../repositories/IUsersRepository";
+import {
+  IUsersRepository,
+  ICreateUserDTO,
+} from '../../repositories/IUsersRepository';
 
 class CreateUserUseCase {
-  constructor(private usersRepository: IUsersRepository){}
+  constructor(private usersRepository: IUsersRepository) {}
 
-  async execute(data: ICreateUserDTO){
+  async execute(data: ICreateUserDTO) {
     const user = this.usersRepository.createUser(data);
 
     return user;
   }
 }
 
-export { CreateUserUseCase }
+export { CreateUserUseCase };

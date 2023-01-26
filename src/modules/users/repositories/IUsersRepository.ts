@@ -7,11 +7,19 @@ interface ICreateUserDTO {
   roles: Role[];
 }
 
+interface IUpdateUserDTO {
+  id: string;
+  username: string;
+  roles: Role[];
+  active: boolean;
+  password?: string;
+}
+
 interface IUsersRepository {
   getAllUsers(): Promise<User[]>;
   createUser(data: ICreateUserDTO): Promise<User>;
-  updateUser(): void;
+  updateUser(data: IUpdateUserDTO): Promise<void>;
   deleteUser(): void;
 }
 
-export { IUsersRepository, ICreateUserDTO };
+export { IUsersRepository, ICreateUserDTO, IUpdateUserDTO };
