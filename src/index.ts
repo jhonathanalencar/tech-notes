@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import 'express-async-errors';
 import express from 'express';
 import path from 'node:path';
 import cors from 'cors';
@@ -9,6 +10,7 @@ import { corsOptions } from './configs/corsOptions';
 import mongoose from 'mongoose';
 import { connectDB } from './configs/dbConn';
 import { logEvents } from './utils/logEvents';
+import { router } from './routes';
 
 const app = express();
 
@@ -17,6 +19,8 @@ connectDB();
 app.use(logger);
 app.use(cors(corsOptions));
 app.use(express.json());
+
+app.use(router);
 
 app.use('/', express.static(path.resolve(__dirname, '..', 'public')));
 

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { ZodError } from 'zod';
 
 import { logEvents } from '../utils/logEvents';
 
@@ -12,11 +13,19 @@ function errorHandler(
   response: Response,
   next: NextFunction
 ) {
-  const customError: CustomError = {
+  let customError: CustomError = {
     name: error.name ?? 'Error',
     message: error.message ?? 'Something went wrong',
     status: error.status ?? 500,
   };
+
+  if(error instanceof ZodError){
+    customError = {
+      name: error.errors[0].code,
+      message: error.errors[0].message,
+      status: 400
+    }
+  }
 
   logEvents(
     `${customError.name}: ${customError.message}\t${request.method}\t${request.url}\t${request.headers.origin}`,
