@@ -6,8 +6,13 @@ import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler';
 import { logger } from './middlewares/logger';
 import { corsOptions } from './configs/corsOptions';
+import mongoose from 'mongoose';
+import { connectDB } from './configs/dbConn';
+import { logEvents } from './utils/logEvents';
 
 const app = express();
+
+connectDB();
 
 app.use(logger);
 app.use(cors(corsOptions));
@@ -32,5 +37,13 @@ app.all('*', (request, response) => {
 });
 
 app.use(errorHandler);
+
+mongoose.connection.once('open', () =>{
+  console.log('Connect to MongoDB 🍃');
+});
+
+mongoose.connection.on('error', (error) =>{
+  logEvents(`${error.name}: ${error.message}\t ${error.code ?? 500}`, 'mongoErrorLog.log');
+});
 
 export { app };
