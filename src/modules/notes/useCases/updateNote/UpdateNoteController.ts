@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { updateNoteBody } from './UpdateNoteSchema';
 import { UpdateNoteUseCase } from './UpdateNoteUseCase';
 
