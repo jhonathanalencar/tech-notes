@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import Inc from 'mongoose-sequence';
 
 interface INote {
-  user: string;
+  userId: string;
   title: string;
   text: string;
   completed: boolean;
@@ -12,7 +12,7 @@ interface INote {
 
 const noteSchema = new mongoose.Schema<INote>(
   {
-    user: {
+    userId: {
       type: String,
       required: true,
       ref: 'User',
