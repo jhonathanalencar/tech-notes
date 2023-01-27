@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Inc from 'mongoose-sequence';
 
 interface INote {
+  _id: string;
   userId: string;
   title: string;
   text: string;
@@ -12,6 +13,10 @@ interface INote {
 
 const noteSchema = new mongoose.Schema<INote>(
   {
+    _id: {
+      type: String,
+      required: true,
+    },
     userId: {
       type: String,
       required: true,
@@ -30,7 +35,7 @@ const noteSchema = new mongoose.Schema<INote>(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true, _id: false }
 );
 
 const AutoIncrement = Inc(mongoose);

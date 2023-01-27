@@ -32,9 +32,18 @@ class MongoNotesRepository implements INotesRepository {
 
     return notesWithUser;
   }
-  create(data: ICreateNoteDTO): Promise<Note> {
-    throw new Error('Method not implemented.');
+
+  async create(data: ICreateNoteDTO): Promise<Note> {
+    const { id, ...newNote } = new Note(data);
+
+    const note = await NoteModel.create({
+      ...newNote,
+      _id: id,
+    });
+
+    return note;
   }
+
   update(data: IUpdateNoteDTO): Promise<void> {
     throw new Error('Method not implemented.');
   }
