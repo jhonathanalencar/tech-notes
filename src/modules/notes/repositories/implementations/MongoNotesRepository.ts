@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../../../errors';
+import { ConflictError, NotFoundError } from '../../../../errors';
 import { NoteModel } from '../../../../models/Note';
 import { UserModel } from '../../../../models/User';
 import { Note } from '../../model/Note';
@@ -36,6 +36,15 @@ class MongoNotesRepository implements INotesRepository {
   async create(data: ICreateNoteDTO): Promise<Note> {
     const { id, ...newNote } = new Note(data);
 
+    const duplicate = await NoteModel.findOne({ title: newNote.title })
+      .collation({ locale: 'en', strength: 2 })
+      .lean()
+      .exec();
+
+    if (duplicate) {
+      throw new ConflictError('Duplicate note title');
+    }
+
     const note = await NoteModel.create({
       ...newNote,
       _id: id,
@@ -49,6 +58,15 @@ class MongoNotesRepository implements INotesRepository {
 
     if (!note) {
       throw new NotFoundError('Note not found');
+    }
+
+    const duplicate = await NoteModel.findOne({ title: data.title })
+      .collation({ locale: 'en', strength: 2 })
+      .lean()
+      .exec();
+
+    if (duplicate && duplicate._id !== data.id) {
+      throw new ConflictError('Duplicate note title');
     }
 
     note.title = data.title;

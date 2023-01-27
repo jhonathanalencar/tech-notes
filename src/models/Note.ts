@@ -25,6 +25,7 @@ const noteSchema = new mongoose.Schema<INote>(
     title: {
       type: String,
       required: true,
+      unique: true,
     },
     text: {
       type: String,
