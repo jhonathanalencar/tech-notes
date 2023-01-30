@@ -4,11 +4,13 @@ import express from 'express';
 import path from 'node:path';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import swaggerUi from 'swagger-ui-express';
 
 import { errorHandler, logger } from './middlewares';
 import { corsOptions, connectDB } from './configs';
 import { logEvents } from './utils';
 import { router } from './routes';
+import swaggerFile from './swagger.json';
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(router);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use('/', express.static(path.resolve(__dirname, '..', 'public')));
 
