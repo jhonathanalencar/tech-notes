@@ -18,7 +18,7 @@ const updateUserBody = z.object({
     .array(z.enum(['Employee', 'Admin', 'Manager']), {
       required_error: 'roles is required',
     })
-    .length(1, 'roles is required'),
+    .min(1, 'roles is required'),
   active: z.boolean({
     required_error: 'active is required',
   }),
