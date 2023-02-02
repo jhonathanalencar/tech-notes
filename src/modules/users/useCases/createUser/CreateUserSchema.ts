@@ -17,7 +17,7 @@ const createUserbody = z.object({
     .array(z.enum(['Employee', 'Admin', 'Manager']), {
       required_error: 'roles is required',
     })
-    .length(1, 'roles is required'),
+    .min(1, 'roles is required'),
 });
 
 export { createUserbody };
