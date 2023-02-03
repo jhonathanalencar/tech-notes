@@ -8,6 +8,7 @@ interface ICreateNoteDTO {
 
 interface IUpdateNoteDTO {
   id: string;
+  userId: string;
   title: string;
   text: string;
   completed: boolean;

@@ -1,4 +1,8 @@
-import { ConflictError, NotFoundError } from '../../../../errors';
+import {
+  BadRequestError,
+  ConflictError,
+  NotFoundError,
+} from '../../../../errors';
 import { NoteModel } from '../../../../models/Note';
 import { UserModel } from '../../../../models/User';
 import { Note } from '../../model/Note';
@@ -69,7 +73,18 @@ class MongoNotesRepository implements INotesRepository {
       throw new ConflictError('Duplicate note title');
     }
 
+    const user = await UserModel.findById(data.userId).lean().exec();
+
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    if (!user.active) {
+      throw new BadRequestError('Cannot assign notes to inactive users');
+    }
+
     note.title = data.title;
+    note.userId = data.userId;
     note.text = data.text;
     note.completed = data.completed;
 

@@ -6,6 +6,11 @@ const updateNoteBody = z.object({
       required_error: 'id is required',
     })
     .uuid('id is not a valid uuid'),
+  userId: z
+    .string({
+      required_error: 'userId is required',
+    })
+    .uuid('id is not a valid uuid'),
   title: z
     .string({
       required_error: 'title is required',

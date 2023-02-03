@@ -7,10 +7,13 @@ class UpdateNoteController {
   constructor(private updateNoteUseCase: UpdateNoteUseCase) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
-    const { id, title, text, completed } = updateNoteBody.parse(request.body);
+    const { id, userId, title, text, completed } = updateNoteBody.parse(
+      request.body
+    );
 
     await this.updateNoteUseCase.execute({
       id,
+      userId,
       title,
       text,
       completed,
