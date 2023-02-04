@@ -5,12 +5,15 @@ import path from 'node:path';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import swaggerUi from 'swagger-ui-express';
+import cookieParser from 'cookie-parser';
 
-import { errorHandler, logger } from './middlewares';
 import { corsOptions, connectDB } from './configs';
 import { logEvents } from './utils';
-import { router } from './routes';
 import swaggerFile from './swagger.json';
+
+import { errorHandler, logger } from './middlewares';
+
+import { router } from './routes';
 
 const app = express();
 
@@ -19,6 +22,7 @@ connectDB();
 app.use(logger);
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(router);
 
