@@ -15,14 +15,14 @@ class Auth {
   }
 
   constructor(data: ICreateJwtDTO) {
-    this.accessToken = jwt.sign(
+    this.accessToken = Auth.createJwt(
       data.accessTokenPayload,
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: '15s',
       }
     );
-    this.refreshToken = jwt.sign(
+    this.refreshToken = Auth.createJwt(
       data.refreshTokenPayload,
       process.env.REFRESH_TOKEN_SECRET,
       {

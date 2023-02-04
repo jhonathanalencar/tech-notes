@@ -64,8 +64,6 @@ class MongoAuthRepository implements IAuthRepository {
 
     return { accessToken };
   }
-
-  async logout(): Promise<void> {}
 }
 
 export { MongoAuthRepository };

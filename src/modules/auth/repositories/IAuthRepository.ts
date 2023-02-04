@@ -29,7 +29,6 @@ interface IRefreshDTO {
 interface IAuthRepository {
   login(data: ILoginDTO): Promise<Auth>;
   refresh(data: IRefreshDTO): Promise<Pick<Auth, 'accessToken'>>;
-  logout(): Promise<void>;
 }
 
 export {
