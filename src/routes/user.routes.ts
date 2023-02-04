@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import { verifyJWT } from '../middlewares';
+
 import {
   createUserController,
   deleteUserController,
@@ -8,6 +10,8 @@ import {
 } from '../modules/users/useCases';
 
 const userRoutes = Router();
+
+userRoutes.use(verifyJWT);
 
 userRoutes.get('/', (request, response) => {
   return getAllUsersController.handle(request, response);

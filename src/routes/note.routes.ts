@@ -1,11 +1,15 @@
 import { Router } from 'express';
 
+import { verifyJWT } from '../middlewares';
+
 import { createNoteController } from '../modules/notes/useCases/createNote';
 import { deleteNoteController } from '../modules/notes/useCases/deleteNote';
 import { getAllNotesController } from '../modules/notes/useCases/getAllNotes';
 import { updateNoteController } from '../modules/notes/useCases/updateNote';
 
 const noteRoutes = Router();
+
+noteRoutes.use(verifyJWT);
 
 noteRoutes.get('/', (request, response) => {
   return getAllNotesController.handle(request, response);

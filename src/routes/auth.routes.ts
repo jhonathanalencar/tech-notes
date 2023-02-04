@@ -1,12 +1,14 @@
 import { Router } from 'express';
 
+import { loginLimiter } from '../middlewares';
+
 import { loginController } from '../modules/auth/useCases/login';
 import { logoutController } from '../modules/auth/useCases/logout';
 import { refreshController } from '../modules/auth/useCases/refresh';
 
 const authRoutes = Router();
 
-authRoutes.post('/', (request, response) =>
+authRoutes.post('/', loginLimiter, (request, response) =>
   loginController.handle(request, response)
 );
 
