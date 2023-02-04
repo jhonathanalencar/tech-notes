@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { UnauthenticatedError } from '../../../../errors';
 import { UserModel } from '../../../../models/User';
 import { Auth } from '../../model/Auth';
-import { IAuthRepository, ILoginDTO } from '../IAuthRepository';
+import { IAuthRepository, ILoginDTO, IRefreshDTO } from '../IAuthRepository';
 
 class MongoAuthRepository implements IAuthRepository {
   async login(data: ILoginDTO): Promise<Auth> {
@@ -39,8 +39,33 @@ class MongoAuthRepository implements IAuthRepository {
 
     return auth;
   }
-  refresh: () => void;
-  logout: () => void;
+
+  async refresh(data: IRefreshDTO): Promise<Pick<Auth, 'accessToken'>> {
+    const user = await UserModel.findOne({ username: data.decoded.username })
+      .lean()
+      .exec();
+
+    if (!user) {
+      throw new UnauthenticatedError('Unauthorized');
+    }
+
+    const accessTokenPayload = {
+      userInfo: {
+        username: user.username,
+        roles: user.roles,
+      },
+    };
+
+    const accessToken = Auth.createJwt(
+      accessTokenPayload,
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '15s' }
+    );
+
+    return { accessToken };
+  }
+
+  async logout(): Promise<void> {}
 }
 
 export { MongoAuthRepository };

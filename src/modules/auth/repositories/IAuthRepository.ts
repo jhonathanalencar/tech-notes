@@ -22,10 +22,14 @@ interface ICreateJwtDTO {
   refreshTokenPayload: IRefreshTokenPayload;
 }
 
+interface IRefreshDTO {
+  decoded: IRefreshTokenPayload;
+}
+
 interface IAuthRepository {
   login(data: ILoginDTO): Promise<Auth>;
-  refresh: () => void;
-  logout: () => void;
+  refresh(data: IRefreshDTO): Promise<Pick<Auth, 'accessToken'>>;
+  logout(): Promise<void>;
 }
 
 export {
@@ -34,4 +38,5 @@ export {
   IAccessTokenPayload,
   IRefreshTokenPayload,
   ICreateJwtDTO,
+  IRefreshDTO,
 };
