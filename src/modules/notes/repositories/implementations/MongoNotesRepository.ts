@@ -38,6 +38,16 @@ class MongoNotesRepository implements INotesRepository {
   }
 
   async create(data: ICreateNoteDTO): Promise<Note> {
+    const user = await UserModel.findById(data.userId).lean().exec();
+
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    if (!user.active) {
+      throw new BadRequestError('Cannot assign notes to inactive users');
+    }
+
     const { id, ...newNote } = new Note(data);
 
     const duplicate = await NoteModel.findOne({ title: newNote.title })
