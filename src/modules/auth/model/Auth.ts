@@ -19,14 +19,14 @@ class Auth {
       data.accessTokenPayload,
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: '15s',
+        expiresIn: '15m',
       }
     );
     this.refreshToken = Auth.createJwt(
       data.refreshTokenPayload,
       process.env.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: '20s',
+        expiresIn: '7d',
       }
     );
   }

@@ -59,7 +59,7 @@ class MongoAuthRepository implements IAuthRepository {
     const accessToken = Auth.createJwt(
       accessTokenPayload,
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '15s' }
+      { expiresIn: '15m' }
     );
 
     return { accessToken };
