@@ -13,7 +13,7 @@ function verifyJWT(request: Request, response: Response, next: NextFunction) {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, decoded) => {
     if (error) {
-      return response.status(403).json({ message: 'Forbidden' });
+      return response.status(403).json({ error: 'Forbidden' });
     }
     request.user = (decoded as IAccessTokenPayload).userInfo.username;
     request.roles = (decoded as IAccessTokenPayload).userInfo.roles;
