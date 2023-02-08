@@ -19,12 +19,12 @@ function errorHandler(
     status: error.status ?? 500,
   };
 
-  if(error instanceof ZodError){
+  if (error instanceof ZodError) {
     customError = {
       name: error.errors[0].code,
       message: error.errors[0].message,
-      status: 400
-    }
+      status: 400,
+    };
   }
 
   logEvents(
@@ -33,7 +33,9 @@ function errorHandler(
   );
   console.log(error.stack);
 
-  response.status(customError.status).json({ error: customError.message });
+  response
+    .status(customError.status)
+    .json({ error: customError.message, isError: true });
 
   next();
 }
