@@ -5,7 +5,7 @@
     "description": "Essa é a documentação para a techNotes API",
     "contact": {
       "name": "API Suport",
-      "url": "http://www.google.com",
+      "url": "https://github.com/jhonathanalencar/tech-notes",
       "email": "jhonathan.alencarfs@gmail.com"
     },
     "version": "0.0.1"
@@ -24,6 +24,10 @@
     {
       "name": "users",
       "description": "Gerenciamento de usuários"
+    },
+    {
+      "name": "notes",
+      "description": "Gerenciamento de notas"
     }
   ],
   "paths": {
@@ -37,6 +41,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["username", "password"],
                 "properties": {
                   "username": {
                     "type": "string"
@@ -170,6 +175,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["username", "password", "roles"],
                 "properties": {
                   "username": {
                     "type": "string"
@@ -232,6 +238,9 @@
             "example": {
               "error": "test"
             }
+          },
+          "403": {
+            "$ref": "#/components/responses/UnauthorizedError"
           },
           "409": {
             "description": "Username já está sendo utilizado.",
@@ -310,12 +319,15 @@
           },
           "401": {
             "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/UnauthorizedError"
           }
         }
       },
       "patch": {
         "tags": ["users"],
-        "summary": "Atualizar Usuário",
+        "summary": "Atualiza um usuário",
         "description": "Essa rota é reponsável por atualizar os dados do usuário",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
@@ -323,6 +335,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["id", "username", "roles", "active"],
                 "properties": {
                   "id": {
                     "type": "string"
@@ -374,10 +387,10 @@
             }
           },
           "401": {
-            "$ref": "#/components/responses/UnauthenticatedError",
-            "example": {
-              "error": "test"
-            }
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/UnauthorizedError"
           },
           "404": {
             "description": "Usuário não encontrado.",
@@ -419,7 +432,7 @@
       },
       "delete": {
         "tags": ["users"],
-        "summary": "Deletar usuário",
+        "summary": "Deleta um usuário",
         "description": "Essa rota é reponsável por deletar o usuário",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
@@ -427,6 +440,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["id"],
                 "properties": {
                   "id": {
                     "type": "string"
@@ -462,10 +476,10 @@
             }
           },
           "401": {
-            "$ref": "#/components/responses/UnauthenticatedError",
-            "example": {
-              "error": "test"
-            }
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/UnauthorizedError"
           },
           "404": {
             "description": "Usuário não encontrado.",
@@ -480,6 +494,379 @@
                   },
                   "example": {
                     "error": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notes": {
+      "post": {
+        "tags": ["notes"],
+        "summary": "Cria uma nova nota",
+        "description": "Essa rota é reponsável por criar uma nova nota",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["userId", "text", "title"],
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "userId": "1f716465-f417-48a0-96da-407e57409617",
+                  "title": "New note title",
+                  "text": "New note text"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operação realizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Note"
+                },
+                "example": {
+                  "_id": "82e8eb2b-8e7f-43d2-9ae3-86addc22b7d3",
+                  "userId": "1f716265-f417-48a0-9d6a-407e57409617",
+                  "title": "New note title",
+                  "text": "New note text",
+                  "completed": false,
+                  "createdAt": "2023-02-10T18:11:28.169Z",
+                  "updatedAt": "2023-02-10T18:11:28.169Z",
+                  "ticket": 524
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "title is required"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/UserNotFoundError"
+          },
+          "409": {
+            "description": "Título já está sendo utilizado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Duplicate note title"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["notes"],
+        "summary": "Listagem de notas",
+        "description": "Essa rota é reponsável por listar todas as notas",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "userId": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "text": {
+                        "type": "string"
+                      },
+                      "completed": {
+                        "type": "boolean"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "ticket": {
+                        "type": "number"
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "_id": "4c9440d3-cb67-42e3-be2b-2c612098e302",
+                      "userId": "1d477873-49a8-425b-83d1-ee02cd9d56c7",
+                      "title": "New note title",
+                      "text": "New note text",
+                      "completed": false,
+                      "createdAt": "2023-01-27T21:40:09.997Z",
+                      "updatedAt": "2023-02-07T01:35:16.107Z",
+                      "ticket": 517,
+                      "user": {
+                        "_id": "1d477873-49a8-425b-83d1-ee02cd9d56c7",
+                        "username": "Alice",
+                        "roles": ["Manager"],
+                        "active": true,
+                        "createdAt": "2023-02-02T15:16:15.898Z",
+                        "updatedAt": "2023-02-02T15:16:15.898Z"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Notas não encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "No notes found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["notes"],
+        "summary": "Atualiza uma nota",
+        "description": "Essa rota é reponsável por atualizar os dados de uma nota",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["id", "userId", "title", "text", "completed"],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "completed": {
+                    "type": "boolean"
+                  }
+                },
+                "example": {
+                  "id": "aff12551-a205-4ea7-a25f-5c0e64502bee",
+                  "userId": "1f796245-f417-48a0-96da-407e57409617",
+                  "title": "Updated note title",
+                  "text": "Updated note text",
+                  "completed": false
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo."
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "title is required"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Nota não encontrada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Note not found"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Título já está sendo utilizado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Duplicate note title"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["notes"],
+        "summary": "Deleta uma nota",
+        "description": "Essa rota é reponsável por deletar uma nota",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["id"],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "id": "cb4ee87e-3df4-4150-b42b-ca289b8596cd"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo."
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "id is required"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError"
+          },
+          "403": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Nota não encontrada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Note not found"
                   }
                 }
               }
@@ -588,6 +975,24 @@
               },
               "example": {
                 "error": "Forbidden"
+              }
+            }
+          }
+        }
+      },
+      "UserNotFoundError": {
+        "description": "Usuário não encontrado.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "error": "User not found"
               }
             }
           }
