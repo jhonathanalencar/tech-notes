@@ -64,3 +64,23 @@ Gerenciar usuários e notas.
 - [ ] Should be able to delete note
 - [ ] Should not be able to delete a non existing note
 - [ ] Should not be able to a non manager or admin user delete a note
+
+## 🚀 Como executar
+```bash
+# Clone este repositório
+$ git clone https://github.com/jhonathanalencar/tech-notes.git
+
+# Entre na pasta
+$ cd tech-notes
+
+# Instale as dependências
+$ npm install
+
+# Preencha e copie as variáveis de ambiente do arquivo .env.example para o arquivo .env na raiz do projeto
+
+# Execute a aplicação em modo de desenvolvimento
+$ npm run dev
+
+# O servidor inciará na porta:3500
+acesse <http://localhost:3500>
+```
