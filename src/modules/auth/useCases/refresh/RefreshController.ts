@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
+import { UnauthenticatedError } from '../../../../errors';
 import { IRefreshTokenPayload } from '../../repositories/IAuthRepository';
 import { RefreshUseCase } from './RefreshUseCase';
 
@@ -11,7 +12,7 @@ class RefreshController {
     const cookies = request.cookies;
 
     if (!cookies?.jwt) {
-      return response.status(401).json({ error: 'Unauthorized' });
+      throw new UnauthenticatedError('Unauthorized');
     }
 
     const refreshToken = cookies.jwt as string;

@@ -72,8 +72,30 @@
               }
             }
           },
+          "400": {
+            "description": "Requisição inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "isError": {
+                      "type": "boolean"
+                    }
+                  },
+                  "example": {
+                    "error": "username is required",
+                    "isError": true
+                  }
+                }
+              }
+            }
+          },
           "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
+            "$ref": "#/components/responses/UnauthenticatedError"
           }
         }
       }
@@ -191,6 +213,28 @@
               }
             }
           },
+          "400": {
+            "description": "Requisição inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "isError": {
+                      "type": "boolean"
+                    }
+                  },
+                  "example": {
+                    "error": "username is required",
+                    "isError": true
+                  }
+                }
+              }
+            }
+          },
           "401": {
             "$ref": "#/components/responses/UnauthenticatedError"
           },
@@ -228,6 +272,42 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/User"
+                  },
+                  "example": [
+                    {
+                      "_id": "541fd4a5-7a84-4965-86cc-e28dbbf5a8f6",
+                      "username": "Jennie",
+                      "roles": ["Employee"],
+                      "active": true,
+                      "createdAt": "2023-02-01T22:03:27.555Z",
+                      "updatedAt": "2023-02-01T22:03:27.555Z"
+                    },
+                    {
+                      "_id": "1d477873-49a8-425b-83d1-ee02cd9d56c7",
+                      "username": "Alice",
+                      "roles": ["Manager"],
+                      "active": true,
+                      "createdAt": "2023-02-02T15:16:15.898Z",
+                      "updatedAt": "2023-02-02T15:16:15.898Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuários não encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "No users found"
                   }
                 }
               }
@@ -317,10 +397,14 @@
               "properties": {
                 "error": {
                   "type": "string"
+                },
+                "isError": {
+                  "type": "boolean"
                 }
               },
               "example": {
-                "error": "Unauthorized"
+                "error": "Unauthorized",
+                "isError": true
               }
             }
           }
