@@ -26,6 +26,15 @@ Gerenciar usuários e notas.
 
 ### Específicação dos testes
 
+#### Auth
+- [ ] Should be able to login user
+- [ ] Should not be able to a non existing user login
+- [ ] Should not be able to an inactive user login
+- [ ] Should not be able to a user login when password is invalid
+- [ ] Should be able to get a new access token when it's already expired
+- [ ] Should not be able to get a new access token when refresh token is already expired
+- [ ] Should be able to logout user
+
 #### Users
 - [ ] Should be able to create new users
 - [ ] Should not be able to create new users when username is already taken
