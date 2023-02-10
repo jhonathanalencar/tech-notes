@@ -35,7 +35,10 @@ function errorHandler(
 
   response
     .status(customError.status)
-    .json({ error: customError.message, isError: true });
+    .json({
+      error: customError.message,
+      ...(customError.status === 500 && { isError: true }),
+    });
 
   next();
 }

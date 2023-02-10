@@ -26,7 +26,7 @@ class Auth {
       data.refreshTokenPayload,
       process.env.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: '7s',
+        expiresIn: '7d',
       }
     );
   }

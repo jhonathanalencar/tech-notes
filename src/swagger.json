@@ -81,14 +81,10 @@
                   "properties": {
                     "error": {
                       "type": "string"
-                    },
-                    "isError": {
-                      "type": "boolean"
                     }
                   },
                   "example": {
-                    "error": "username is required",
-                    "isError": true
+                    "error": "username is required"
                   }
                 }
               }
@@ -104,7 +100,7 @@
       "get": {
         "tags": ["auth"],
         "summary": "Retorna um novo access token",
-        "description": "Essa rota é reponsável por retornar um novo access token.",
+        "description": "Essa rota é reponsável por retornar um novo access token",
         "responses": {
           "200": {
             "description": "Operação realizada com sucesso.",
@@ -222,21 +218,20 @@
                   "properties": {
                     "error": {
                       "type": "string"
-                    },
-                    "isError": {
-                      "type": "boolean"
                     }
                   },
                   "example": {
-                    "error": "username is required",
-                    "isError": true
+                    "error": "username is required"
                   }
                 }
               }
             }
           },
           "401": {
-            "$ref": "#/components/responses/UnauthenticatedError"
+            "$ref": "#/components/responses/UnauthenticatedError",
+            "example": {
+              "error": "test"
+            }
           },
           "409": {
             "description": "Username já está sendo utilizado.",
@@ -315,6 +310,180 @@
           },
           "401": {
             "$ref": "#/components/responses/UnauthenticatedError"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["users"],
+        "summary": "Atualizar Usuário",
+        "description": "Essa rota é reponsável por atualizar os dados do usuário",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "roles": {
+                    "$ref": "#/components/schemas/Roles"
+                  },
+                  "active": {
+                    "type": "boolean"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "id": "cb4ee87e-3df4-4150-b42b-ca289b8546cd",
+                  "username": "Anna",
+                  "roles": ["Employee"],
+                  "active": true,
+                  "password": "Anna123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo."
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "username is required"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError",
+            "example": {
+              "error": "test"
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Username já está sendo utilizado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Duplicate username"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Deletar usuário",
+        "description": "Essa rota é reponsável por deletar o usuário",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "id": "cb4ee87e-3df4-4150-b42b-ca289b8596cd"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo."
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "id is required"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthenticatedError",
+            "example": {
+              "error": "test"
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -397,14 +566,10 @@
               "properties": {
                 "error": {
                   "type": "string"
-                },
-                "isError": {
-                  "type": "boolean"
                 }
               },
               "example": {
-                "error": "Unauthorized",
-                "isError": true
+                "error": "Unauthorized"
               }
             }
           }
