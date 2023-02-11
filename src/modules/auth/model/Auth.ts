@@ -11,7 +11,7 @@ class Auth {
     token: jwt.Secret,
     options?: jwt.SignOptions
   ) {
-    return jwt.sign(payload, token, { ...(options && options) });
+    return jwt.sign(payload, token ?? 'secret', { ...(options && options) });
   }
 
   constructor(data: ICreateJwtDTO) {
