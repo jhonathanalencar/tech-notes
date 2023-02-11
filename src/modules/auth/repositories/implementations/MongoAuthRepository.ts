@@ -15,7 +15,7 @@ class MongoAuthRepository implements IAuthRepository {
       throw new UnauthenticatedError('Unauthorized');
     }
 
-    const matchPassword = bcrypt.compare(data.password, user.password);
+    const matchPassword = await bcrypt.compare(data.password, user.password);
 
     if (!matchPassword) {
       throw new UnauthenticatedError('Unauthorized');
