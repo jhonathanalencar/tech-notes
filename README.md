@@ -36,9 +36,11 @@ Gerenciar usuários e notas.
 - [x] Should not be able to a non existing user login
 - [x] Should not be able to an inactive user login
 - [x] Should not be able to a user login when password is invalid
-- [ ] Should be able to get a new access token when it's already expired
-- [ ] Should not be able to get a new access token when refresh token is already expired
-- [ ] Should be able to logout user
+- [x] Should be able to get a new access token
+- [x] Should not be able to get a new access token when refresh token is already expired
+- [x] Should not be able to get a new access token whithout a refresh token
+- [x] Should be able to logout user
+- [x] Should be able to logout user without refresh token
 
 #### Users
 
