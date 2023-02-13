@@ -7,7 +7,9 @@
     "start": "tsc && node dist/server.js",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "test": "jest"
+    "seed": "tsx seed.ts",
+    "test": "npm run seed && jest --silent",
+    "test:watch": "npm run seed && jest --watchAll --silent"
   },
   "keywords": [],
   "author": "",
