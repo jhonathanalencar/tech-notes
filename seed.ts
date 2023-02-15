@@ -22,8 +22,8 @@ async function seedDB() {
   });
 
   await usersRepository.createUser({
-    username: 'Anna',
-    password: 'Anna123',
+    username: 'Alice',
+    password: 'Alice123',
     roles: ['Employee', 'Manager', 'Admin'],
   });
 
