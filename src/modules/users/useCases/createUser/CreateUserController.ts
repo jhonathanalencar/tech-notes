@@ -11,7 +11,7 @@ class CreateUserController {
     const { username, password, roles } = createUserbody.parse(request.body);
 
     if (
-      !request.roles.includes('Admin') ||
+      !request.roles.includes('Admin') &&
       !request.roles.includes('Manager')
     ) {
       throw new UnauthenticatedError('Unauthorized');

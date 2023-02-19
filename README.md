@@ -44,10 +44,10 @@ Gerenciar usuários e notas.
 
 #### Users
 
-- [ ] Should be able to create new users
-- [ ] Should not be able to create new users when username is already taken
-- [ ] Should not be able to a non manager or admin user create new users
-- [ ] Should be able to list all users
+- [x] Should be able to create new users
+- [x] Should not be able to create new users when username is already taken
+- [x] Should not be able to a non manager or admin user create new users
+- [x] Should be able to list all users
 - [ ] Should not be able to a non manager or admin user get list of all users
 - [ ] Should be able to update user
 - [ ] Should not be able to update a non existing user
