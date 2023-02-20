@@ -80,7 +80,7 @@ class MongoUsersRepository implements IUsersRepository {
       throw new NotFoundError('User not found');
     }
 
-    const note = await NoteModel.findOne({ user: data.id }).lean().exec();
+    const note = await NoteModel.findOne({ userId: data.id }).lean().exec();
 
     if (note) {
       throw new BadRequestError('User has assigned notes');

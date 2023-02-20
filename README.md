@@ -53,10 +53,10 @@ Gerenciar usuários e notas.
 - [x] Should not be able to update a non existing user
 - [x] Should not be able to update user when username is already taken
 - [x] Should not be able to a non manager or admin user update a user
-- [ ] Should be able to delete user
-- [ ] Should not be able to delete a non existing user
-- [ ] Should not be able to delete a user with assigned notes
-- [ ] Should not be able to a non manager or admin user delete a user
+- [x] Should be able to delete user
+- [x] Should not be able to delete a non existing user
+- [x] Should not be able to delete a user with assigned notes
+- [x] Should not be able to a non manager or admin user delete a user
 
 #### Notes
 
