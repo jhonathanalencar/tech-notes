@@ -8,8 +8,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "seed": "tsx seed.ts",
-    "test": "npm run seed && jest --silent",
-    "test:watch": "npm run seed && jest --watchAll --silent"
+    "test": "jest --silent",
+    "test:seed": "npm run seed && jest --silent"
   },
   "keywords": [],
   "author": "",

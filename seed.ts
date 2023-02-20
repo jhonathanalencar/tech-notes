@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 import path from 'node:path';
 
 import { NoteModel } from './src/models/Note';
-import { IUser, UserModel } from './src/models/User';
+import { UserModel } from './src/models/User';
 import { MongoNotesRepository } from './src/modules/notes/repositories/implementations/MongoNotesRepository';
 import { MongoUsersRepository } from './src/modules/users/repositories/implementations/MongoUsersRepository';
 
@@ -30,13 +30,12 @@ async function seedDB() {
   await notesRepository.create({
     title: 'New note title',
     text: 'New note text',
-    userId: (userOne as IUser)._id,
+    userId: userOne.id as string,
   });
 }
 
 async function clearDB() {
-  await NoteModel.deleteMany();
-  await UserModel.deleteMany();
+  await Promise.all([NoteModel.deleteMany(), UserModel.deleteMany()]);
 }
 
 export async function main() {

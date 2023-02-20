@@ -139,7 +139,7 @@ describe('[PATCH] /users', () => {
       .patch('/users')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        id: (user as IUser)._id,
+        id: user.id,
         username: 'username updated',
         roles: ['Employee', 'Manager'],
         active: true,
@@ -151,7 +151,7 @@ describe('[PATCH] /users', () => {
     expect(users).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          _id: (user as IUser)._id,
+          _id: user.id,
           username: 'username updated',
           roles: ['Employee', 'Manager'],
           active: true,
@@ -232,7 +232,7 @@ describe('[PATCH] /users', () => {
       .patch('/users')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        id: (user as IUser)._id,
+        id: user.id,
         username: String(Math.random()),
         roles: ['Employee'],
         active: true,
@@ -261,14 +261,12 @@ describe('[DELETE] /users', () => {
     await request(app)
       .delete('/users')
       .set('Authorization', `Bearer ${accessToken}`)
-      .send({ id: (user as IUser)._id })
+      .send({ id: user.id })
       .expect(204);
 
     const users = await usersRepository.getAllUsers();
 
-    const deletedUser = users.some(
-      (u) => (u as IUser)._id === (user as IUser)._id
-    );
+    const deletedUser = users.some((u) => (u as IUser)._id === user.id);
 
     expect(deletedUser).toBe(false);
   });
@@ -307,14 +305,14 @@ describe('[DELETE] /users', () => {
     await notesRepository.create({
       title: String(Math.random()),
       text: String(Math.random()),
-      userId: (user as IUser)._id,
+      userId: user.id as string,
     });
 
     const response = await request(app)
       .delete('/users')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        id: (user as IUser)._id,
+        id: user.id,
       })
       .expect(400);
 
@@ -339,7 +337,7 @@ describe('[DELETE] /users', () => {
       .delete('/users')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        id: (user as IUser)._id,
+        id: user.id,
       })
       .expect(401);
 

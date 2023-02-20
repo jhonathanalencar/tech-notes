@@ -43,7 +43,7 @@ class MongoUsersRepository implements IUsersRepository {
       password: hashedPassword,
     });
 
-    return user;
+    return { ...user.toObject(), id: user._id };
   }
 
   async updateUser(data: IUpdateUserDTO): Promise<void> {
