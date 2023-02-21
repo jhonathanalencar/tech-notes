@@ -2,6 +2,7 @@ import {
   BadRequestError,
   ConflictError,
   NotFoundError,
+  UnauthenticatedError,
 } from '../../../../errors';
 import { NoteModel } from '../../../../models/Note';
 import { UserModel } from '../../../../models/User';
@@ -72,6 +73,10 @@ class MongoNotesRepository implements INotesRepository {
 
     if (!note) {
       throw new NotFoundError('Note not found');
+    }
+
+    if (!data.isManagerOrAdmin && note.userId !== data.userId) {
+      throw new UnauthenticatedError('Unauthorized');
     }
 
     const duplicate = await NoteModel.findOne({ title: data.title })

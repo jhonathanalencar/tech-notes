@@ -12,6 +12,7 @@ interface IUpdateNoteDTO {
   title: string;
   text: string;
   completed: boolean;
+  isManagerOrAdmin: boolean;
 }
 
 interface IDeleteNoteDTO {

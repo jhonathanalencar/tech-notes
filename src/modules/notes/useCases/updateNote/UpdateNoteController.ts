@@ -11,12 +11,16 @@ class UpdateNoteController {
       request.body
     );
 
+    const isManagerOrAdmin =
+      request.roles.includes('Manager') || request.roles.includes('Admin');
+
     await this.updateNoteUseCase.execute({
       id,
       userId,
       title,
       text,
       completed,
+      isManagerOrAdmin,
     });
 
     return response.status(204).send();
