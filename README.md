@@ -72,9 +72,9 @@ Gerenciar usuários e notas.
 - [x] Should be able to a non manager or admin user update their assigned notes
 - [x] Should not be able to assign updated note to a non existing user
 - [x] Should not be able to assign updated note to a inactive user
-- [ ] Should be able to delete note
-- [ ] Should not be able to delete a non existing note
-- [ ] Should not be able to a non manager or admin user delete a note
+- [x] Should be able to delete note
+- [x] Should not be able to delete a non existing note
+- [x] Should not be able to a non manager or admin user delete a note
 
 ## 🚀 Como executar
 

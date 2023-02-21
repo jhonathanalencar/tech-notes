@@ -437,3 +437,92 @@ describe('[PUT] /notes', () => {
     });
   });
 });
+
+describe('[DELETE] /notes', () => {
+  it('should be able to delete note', async () => {
+    const { accessToken } = await authRepository.login({
+      username: 'Alice',
+      password: 'Alice123',
+    });
+
+    const user = await usersRepository.createUser({
+      username: String(Math.random()),
+      password: String(Math.random()),
+      roles: ['Employee'],
+    });
+
+    const note = await notesRepository.create({
+      userId: user.id as string,
+      title: 'Note9',
+      text: 'text',
+    });
+
+    await request(app)
+      .delete('/notes')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        id: note.id,
+      })
+      .expect(204);
+
+    const notes = await notesRepository.getAll();
+
+    expect(notes).not.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          title: 'Note9',
+        }),
+      ])
+    );
+  });
+
+  it('should not be able to delete a non existing note', async () => {
+    const { accessToken } = await authRepository.login({
+      username: 'Alice',
+      password: 'Alice123',
+    });
+
+    const response = await request(app)
+      .delete('/notes')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        id: uuidv4(),
+      })
+      .expect(404);
+
+    expect(response.body).toMatchObject({
+      error: 'Note not found',
+    });
+  });
+
+  it('should not be able to a non manager or admin user delete a note', async () => {
+    const { accessToken } = await authRepository.login({
+      username: 'Jennie',
+      password: 'Jennie123',
+    });
+
+    const user = await usersRepository.createUser({
+      username: String(Math.random()),
+      password: String(Math.random()),
+      roles: ['Employee'],
+    });
+
+    const note = await notesRepository.create({
+      userId: user.id as string,
+      title: 'Note10',
+      text: 'text',
+    });
+
+    const response = await request(app)
+      .delete('/notes')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        id: note.id,
+      })
+      .expect(401);
+
+    expect(response.body).toMatchObject({
+      error: 'Unauthorized',
+    });
+  });
+});
