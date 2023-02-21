@@ -64,9 +64,7 @@ Gerenciar usuários e notas.
 - [x] Should not be able to create new notes when title is already taken
 - [x] Should not be able to assign notes to inactive users
 - [x] Should not be able to assign notes to a non existing user
-- [ ] Should be able to list all notes
-- [ ] Should not be able to a non manager or admin user get list of all notes
-- [ ] Should be able to a non manager or admin user get their assigned notes
+- [x] Should be able to list all notes
 - [ ] Should be able to update note
 - [ ] Should not be able to update a non existing note
 - [ ] Should not be able to update note when title is already taken

@@ -3,10 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { app } from '../..';
 import { MongoAuthRepository } from '../../modules/auth/repositories/implementations/MongoAuthRepository';
+import { MongoNotesRepository } from '../../modules/notes/repositories/implementations/MongoNotesRepository';
 import { MongoUsersRepository } from '../../modules/users/repositories/implementations/MongoUsersRepository';
 
 const authRepository = new MongoAuthRepository();
 const usersRepository = new MongoUsersRepository();
+const notesRepository = new MongoNotesRepository();
 
 describe('[POST] /notes', () => {
   it('should be able to create new notes', async () => {
@@ -26,7 +28,7 @@ describe('[POST] /notes', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         userId: user.id,
-        title: 'Nota1',
+        title: 'Note1',
         text: 'texto',
       })
       .expect(201);
@@ -34,7 +36,7 @@ describe('[POST] /notes', () => {
     expect(response.body).toEqual(
       expect.objectContaining({
         userId: user.id,
-        title: 'Nota1',
+        title: 'Note1',
         text: 'texto',
         completed: false,
       })
@@ -58,7 +60,7 @@ describe('[POST] /notes', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         userId: user.id,
-        title: 'Nota1',
+        title: 'Note1',
         text: 'texto',
       })
       .expect(409);
@@ -93,7 +95,7 @@ describe('[POST] /notes', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         userId: user.id,
-        title: 'Nota2',
+        title: 'Note2',
         text: 'texto',
       })
       .expect(400);
@@ -114,7 +116,7 @@ describe('[POST] /notes', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         userId: uuidv4(),
-        title: 'Nota3',
+        title: 'Note3',
         text: 'texto',
       })
       .expect(404);
@@ -122,5 +124,52 @@ describe('[POST] /notes', () => {
     expect(response.body).toMatchObject({
       error: 'User not found',
     });
+  });
+});
+
+describe('[GET] /notes', () => {
+  it('should be able to list all notes', async () => {
+    const { accessToken } = await authRepository.login({
+      username: 'Alice',
+      password: 'Alice123',
+    });
+
+    const user = await usersRepository.createUser({
+      username: String(Math.random()),
+      password: String(Math.random()),
+      roles: ['Employee'],
+    });
+
+    const note1 = await notesRepository.create({
+      userId: user.id as string,
+      title: 'Note1 title',
+      text: 'Note1 text',
+    });
+
+    const note2 = await notesRepository.create({
+      userId: user.id as string,
+      title: 'Note2 title',
+      text: 'Note2 text',
+    });
+
+    const response = await request(app)
+      .get('/notes')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+
+    expect(response.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          _id: note1.id,
+          title: 'Note1 title',
+          text: 'Note1 text',
+        }),
+        expect.objectContaining({
+          _id: note2.id,
+          title: 'Note2 title',
+          text: 'Note2 text',
+        }),
+      ])
+    );
   });
 });
