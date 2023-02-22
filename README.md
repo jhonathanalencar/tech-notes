@@ -4,6 +4,8 @@
 
 Gerenciar usuários e notas.
 
+[Acesse a documentação](https://tech-notes-server.onrender.com/api-docs/)
+
 ## ✅ Requisitos
 
 ### Rotas da aplicação
