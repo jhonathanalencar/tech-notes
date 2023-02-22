@@ -2,9 +2,9 @@
   "name": "tech-notes",
   "version": "1.0.0",
   "description": "techNotes MERN Project",
-  "main": "dist/server.js",
+  "main": "dist/src/server.js",
   "scripts": {
-    "start": "tsc && node dist/server.js",
+    "start": "node ./dist/src/server.js",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "seed": "tsx seed.ts",

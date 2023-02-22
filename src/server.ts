@@ -5,10 +5,9 @@ import { logEvents } from './utils';
 
 const PORT = process.env.PORT ?? 3500;
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
 mongoose.connection.once('open', () => {
-  console.log('Connect to MongoDB 🍃');
+  console.log('Connect to MongoDB');
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
 
 mongoose.connection.on('error', (error) => {
