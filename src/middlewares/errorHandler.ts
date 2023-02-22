@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 
@@ -28,19 +29,17 @@ function errorHandler(
   }
 
   logEvents(
-    `${customError.name}: ${customError.message}\t${request.method}\t${request.url}\t${request.headers.origin}`,
+    `${customError.name}: ${customError.message}\t${request.method}\t${request.url}\t${request.headers?.origin}`,
     'errorLog.log'
   );
   console.log(error.stack);
 
-  response
-    .status(customError.status)
-    .json({
-      error: customError.message,
-      ...(customError.status === 500 && { isError: true }),
-    });
+  response.status(customError.status).json({
+    error: customError.message,
+    ...(customError.status === 500 && { isError: true }),
+  });
 
-  next();
+  // next();
 }
 
 export { errorHandler };
