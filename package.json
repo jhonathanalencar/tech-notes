@@ -2,14 +2,15 @@
   "name": "tech-notes",
   "version": "1.0.0",
   "description": "techNotes MERN Project",
-  "main": "dist/src/server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node ./dist/src/server.js",
+    "start": "node ./dist/server.js",
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && npm run copy:views",
     "seed": "tsx seed.ts",
     "test": "jest --silent",
-    "test:seed": "npm run seed && jest --silent"
+    "test:seed": "npm run seed && jest --silent",
+    "copy:views": "cpy ./src/views/ ./dist/views/ --flat"
   },
   "keywords": [],
   "author": "",
@@ -43,6 +44,7 @@
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
+    "cpy-cli": "^4.2.0",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
