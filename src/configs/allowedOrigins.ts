@@ -1,3 +1,3 @@
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:3500'];
+const allowedOrigins = [process.env.APP_URL];
 
 export { allowedOrigins };
